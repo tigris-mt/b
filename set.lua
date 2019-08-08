@@ -32,7 +32,7 @@ function b.set.intersection(...)
 			r[k] = (r[k] or 0) + 1
 		end
 	end
-	return table.map(r, function(v) return (v == #p) and v or nil end)
+	return b.t.map(r, function(v) return (v == #p) and v or nil end)
 end
 
 -- Get a set with only the entries that are in a single parameter set.
@@ -44,12 +44,12 @@ function b.set.difference(...)
 			r[k] = (r[k] or 0) + 1
 		end
 	end
-	return table.map(r, function(v) return (v == 1) and v or nil end)
+	return b.t.map(r, function(v) return (v == 1) and v or nil end)
 end
 
 -- Convert a set to an array.
 function b.set.to_array(set)
-	return table.keys(set)
+	return b.t.keys(set)
 end
 
 -- Set iterator, iterates over entries.
