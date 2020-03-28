@@ -31,6 +31,6 @@ function b.pathfinder.path(def)
 		drop_height = 1,
 	}, def)
 
-	local pathfinder = assert(b.pathfinder.pathfinders[def.method])
+	local pathfinder = assert(b.pathfinder.pathfinders[def.method], "no such pathfinder: " .. def.method)
 	return pathfinder.func(def)
 end
