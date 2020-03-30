@@ -149,24 +149,16 @@ end
 
 -- Iterate through all elements in the array array, but start at a random point.
 function b.t.ro_ipairs(array)
-	if #array == 0 then
-		return function() return nil end
+	if #array <= 1 then
+		return ipairs(array)
 	else
+		local i = 0
 		local start = math.random(#array)
-		local i = start
 		return function()
-			if i then
-				local ri = i
-				local rv = array[i]
-
-				i = i + 1
-				if i > #array then
-					i = 1
-				elseif i == start then
-					i = nil
-				end
-
-				return ri, rv
+			i = i + 1
+			local wi = ((i + start) % #array) + 1
+			if i <= #array then
+				return wi, array[wi]
 			end
 		end
 	end
