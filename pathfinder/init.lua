@@ -14,6 +14,10 @@ function b.pathfinder.register(method, fdef)
 	b.pathfinder.pathfinders[method] = fdef
 end
 
+function b.pathfinder.default_passable(pos, node) return not minetest.registered_nodes[node.name].walkable end
+function b.pathfinder.default_walkable(pos, node) return minetest.registered_nodes[node.name].walkable end
+function b.pathfinder.default_climbable(pos, node) return minetest.registered_nodes[node.name].climbable end
+
 -- Find a path.
 -- Returns a table of positions or nil if no path could be found.
 function b.pathfinder.path(def)
@@ -48,9 +52,11 @@ function b.pathfinder.path(def)
 
 		-- Detect node pathing properties.
 		-- function(pos, node) -> boolean indicating if node has property.
-		--- group: node_functions
-		node_passable = nil,
-		node_walkable = nil,
+		--- groups: node_functions_X
+		node_passable = b.pathfinder.default_passable,
+		node_walkable = b.pathfinder.default_walkable,
+		node_climable = b.pathfinder.default_climbable,
+		node_climbable_against = nil,
 	}, def)
 
 	return assert(b.pathfinder.pathfinders[def.method], "no such pathfinder: " .. def.method).func(def)
