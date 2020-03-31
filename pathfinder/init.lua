@@ -53,10 +53,10 @@ function b.pathfinder.path(def)
 		-- Detect node pathing properties.
 		-- function(pos, node) -> boolean indicating if node has property.
 		--- groups: node_functions_X
-		node_passable = b.pathfinder.default_passable,
-		node_walkable = b.pathfinder.default_walkable,
-		node_climable = b.pathfinder.default_climbable,
-		node_climbable_against = nil,
+		node_passable = b.pathfinder.default_passable, -- Can walk through?
+		node_walkable = b.pathfinder.default_walkable, -- Can walk over?
+		node_climable = b.pathfinder.default_climbable, -- Can climb in (ladders, vines)?
+		node_climbable_against = nil, -- Can climb against (perhaps spiders on walls)?
 	}, def)
 
 	return assert(b.pathfinder.pathfinders[def.method], "no such pathfinder: " .. def.method).func(def)
