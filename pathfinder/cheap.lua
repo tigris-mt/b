@@ -30,6 +30,21 @@ b.pathfinder.register("b:cheap", {
 				return
 			end
 
+			-- Ensure we're going to walk on a safe place.
+			if not (function()
+				for i=1,self.def.drop_height do
+					local pos = vector.subtract(next_pos, vector.new(0, i, 0))
+					if self.def.node_walkable(pos, minetest.get_node(pos)) then
+						return true
+					elseif not self.def.node_passable(pos, minetest.get_node(pos)) then
+						return false
+					end
+				end
+				return false
+			end)() then
+				return
+			end
+
 			self.at = next_pos
 			return self.at
 		end,

@@ -25,7 +25,7 @@ function b.pathfinder.register(method, fdef)
 	b.pathfinder.pathfinders[method] = fdef
 end
 
-function b.pathfinder.default_passable(pos, node) return not minetest.registered_nodes[node.name].walkable end
+function b.pathfinder.default_passable(pos, node) return not minetest.registered_nodes[node.name].walkable and minetest.get_item_group(node.name, "liquid") == 0 end
 function b.pathfinder.default_walkable(pos, node) return minetest.registered_nodes[node.name].walkable end
 function b.pathfinder.default_climbable(pos, node) return minetest.registered_nodes[node.name].climbable end
 
@@ -68,7 +68,7 @@ function b.pathfinder.path(def)
 		--- groups: node_functions_X
 		node_passable = b.pathfinder.default_passable, -- Can walk through?
 		node_walkable = b.pathfinder.default_walkable, -- Can walk over?
-		node_climable = b.pathfinder.default_climbable, -- Can climb in (ladders, vines)?
+		node_climbable = b.pathfinder.default_climbable, -- Can climb in (ladders, vines)?
 		node_climbable_against = nil, -- Can climb against (perhaps spiders on walls)?
 	}, def)
 
@@ -85,6 +85,10 @@ end
 function b.pathfinder.get_pathfinder(groups)
 	for method,fdef in b.t.spairs(b.pathfinder.pathfinders, function(t, a, b) return t[a].expense < t[b].expense end) do
 		if (function()
+			-- Don't return a cheap pathfinder if unwanted.
+			if fdef.groups.cheap and not groups.cheap then
+				return false
+			end
 			for group in b.set.iter(groups) do
 				if not fdef.groups[group] then
 					return false
