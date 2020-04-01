@@ -10,7 +10,7 @@ b.pathfinder.register("b:builtin", {
 			return self.path[self.i]
 		end,
 	},
-	expense = 20,
+	priority = 1,
 	groups = b.set{
 		"specify_vertical",
 	},

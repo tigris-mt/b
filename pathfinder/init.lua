@@ -1,14 +1,16 @@
 b.pathfinder = {
+	CHEAP = 1000,
 	pathfinders = {},
 }
 
 function b.pathfinder.register(method, fdef)
 	local fdef = b.t.combine({
 		func = function(def) end,
-		-- Relative expense.
-		-- 10 for cheap implementations that do not actually pathfind.
-		-- 20 for the C++ builtin pathfinder.
-		expense = 1,
+		-- Priority, least expensive and most accurate implementations have priority.
+		-- Lower is better.
+		-- 1 for the builtin C++ pathfinder.
+		-- b.pathfinder.CHEAP + x for "cheap" inaccurate pathfinders.
+		priority = 1,
 		-- Support groups set.
 		groups = {},
 
@@ -83,12 +85,8 @@ end
 -- Get a pathfinder method that supports all the groups in the passed set.
 -- Returns nil if no pathfinder sufficed.
 function b.pathfinder.get_pathfinder(groups)
-	for method,fdef in b.t.spairs(b.pathfinder.pathfinders, function(t, a, b) return t[a].expense < t[b].expense end) do
+	for method,fdef in b.t.spairs(b.pathfinder.pathfinders, function(t, a, b) return t[a].priority < t[b].priority end) do
 		if (function()
-			-- Don't return a cheap pathfinder if unwanted.
-			if fdef.groups.cheap and not groups.cheap then
-				return false
-			end
 			for group in b.set.iter(groups) do
 				if not fdef.groups[group] then
 					return false

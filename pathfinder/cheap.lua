@@ -74,7 +74,7 @@ b.pathfinder.register("b:cheap", {
 			return true
 		end,
 	},
-	expense = 10,
+	expense = b.pathfinder.CHEAP + 20,
 	groups = b.set{
 		"cheap",
 		"clearance_height",
