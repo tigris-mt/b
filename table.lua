@@ -185,5 +185,5 @@ end
 -- Insert into random point in table array.
 function b.t.random_insert(t, v, random)
 	random = random or math.random
-	table.insert(t, random(0, #t), v)
+	table.insert(t, random(0, #t) + 1, v)
 end
