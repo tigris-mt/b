@@ -1,7 +1,7 @@
 -- The world size.
 b.WORLD = {
-	min = vector.new(-31000, -31000, -31000),
-	max = vector.new(31000, 31000, 31000),
+	min = vector.new(-30912, -30912, -30912),
+	max = vector.new(30926, 30926, 30926),
 }
 
 b.WORLD.box = b.box.new(b.WORLD.min, b.WORLD.max)
