@@ -35,6 +35,8 @@ b.dofile("table.lua")
 b.dofile("set.lua")
 b.dofile("uid.lua")
 
+b.dofile("math.lua")
+
 b.dofile("color.lua")
 b.dodir("geometry")
 b.dodir("pathfinder")
